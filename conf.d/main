@@ -1,2 +1,14 @@
 #!/bin/sh -ex
-echo "do nothing - core requires no post-package configuration commands"
+echo "Configure user accounts"
+addgroup media
+adduser --system deluge --ingroup media
+adduser --system subliminal --ingroup media
+
+echo "Create log directories"
+mkdir -p /var/log/deluge
+chown -R deluge:media /var/log/deluge
+chmod -R 750 /var/log/deluge
+
+echo "Enable services"
+systemctl enable /etc/systemd/system/deluged.service
+systemctl enable /etc/systemd/system/deluge-web.service
