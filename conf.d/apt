@@ -1,0 +1,5 @@
+#!/bin/sh -ex
+echo "Add Emby to APT"
+echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_8.0/ /' > /etc/apt/sources.list.d/emby-server.list
+gpg --keyserver keyserver.opensuse.org --recv-keys 2A7D8A28
+gpg -a --export 2A7D8A28 | apt-key add -

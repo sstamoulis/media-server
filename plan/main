@@ -1,4 +1,8 @@
 #include <turnkey/base>
+
 deluged
 deluge-web
 deluge-console
+
+python-pip
+emby-server

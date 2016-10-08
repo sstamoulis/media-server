@@ -2,6 +2,7 @@
 echo "Configure user accounts"
 addgroup media
 adduser --system deluge --ingroup media
+adduser --system emby --ingroup media
 adduser --system subliminal --ingroup media
 
 echo "Create log directories"
@@ -12,3 +13,20 @@ chmod -R 750 /var/log/deluge
 echo "Enable services"
 systemctl enable /etc/systemd/system/deluged.service
 systemctl enable /etc/systemd/system/deluge-web.service
+
+echo "Configure deluge"
+su -s /bin/bash deluge <<'DELUGE'
+deluged
+sleep 5
+deluge-console "config -s allow_remote True"
+sleep 5
+killall deluged
+echo deluge:deluge:10 >> /home/deluge/.config/deluge/auth
+DELUGE
+
+# echo "Install Emby server"
+# echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_8.0/ /' > /etc/apt/sources.list.d/emby-server.list
+# wget http://download.opensuse.org/repositories/home:emby/Debian_8.0/Release.key
+# apt-key add - < Release.key
+# apt-get update
+# apt-get install emby-server
